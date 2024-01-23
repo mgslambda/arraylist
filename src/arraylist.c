@@ -8,8 +8,29 @@ static int _al_size(ArrayList *ar) {
     return sizeof(ar->list) / sizeof(*(ar->list));
 }
 
-/* Double the size of ar using realloc */
-static void _al_resize(ArrayList *ar);
+/* Doubles the size of ar->list */
+static void _al_expand(ArrayList *ar) {
+    size_t i;
+    int ar_size = _al_size(ar);
+
+    ar->list = realloc(ar->list, ar_size * 2);
+    if (ar->list == NULL) {
+        fprintf(stderr, "Failed to expand array\n");
+        exit(EXIT_FAILURE);
+    }
+    for (i = ar->length; i < ar_size; i++) {
+        *(ar->list + i) = 0;
+    }
+}
+
+/* Halves the size of ar->list */
+static void _al_shrink(ArrayList *ar) {
+    ar->list = realloc(ar->list, ar->length / 2);
+    if (ar->list == NULL) {
+        fprintf(stderr, "Failed to shrink array\n");
+        exit(EXIT_FAILURE);
+    }
+}
 
 ArrayList *al_init(int size) {
     ArrayList *ar = malloc(sizeof(ArrayList));
@@ -43,7 +64,7 @@ int al_get(ArrayList *ar, int index) {
     }
 }
 
-void al_add(ArrayList *ar, int index);
+void al_add(ArrayList *ar, int index) {}
 
 int al_remove(ArrayList *ar, int index);
 
