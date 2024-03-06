@@ -3,7 +3,7 @@
 
 typedef struct arraylist ArrayList;
 
-extern ArrayList *al_init(int size);
+extern ArrayList *al_init();
 extern int al_length(ArrayList *ar);
 extern int al_is_empty(ArrayList *ar);
 extern int al_get(ArrayList *ar, int index);
