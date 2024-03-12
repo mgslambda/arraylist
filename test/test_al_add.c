@@ -9,6 +9,7 @@ int main() {
     al_add(al, 0, 42);
     int t1 = al_get(al, 0);
     assert(t1 == 42);
+    assert(al_size(al) == 1);
     puts("Passed test 1");
 
     /* Add to an arbitrary position */

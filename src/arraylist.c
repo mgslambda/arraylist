@@ -114,6 +114,15 @@ void al_add(ArrayList *al, int index, int val) {
     al->size++;
 }
 
-int al_remove(ArrayList *al, int index);
+int al_remove(ArrayList *al, int index) {
+    // if index is greater than the _capacity of al, error
+    // if we attempt to remove an empty position, error
+    // store the val of the Position at index in a temp variable and
+    // set the Position to empty
+    // decrement al->size
+    // if al->size is less than 30% of al->_capacity **AND** 
+    // there are no elements currently in part of the list that is about
+    // to shrink **AND** the capacity is >10, shrink the arraylist
+}
 
 void al_del(ArrayList *al);
