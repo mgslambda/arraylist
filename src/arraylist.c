@@ -6,7 +6,7 @@
 #define AL_INIT_CAPACITY 10
 
 static Position *_pos_init() {
-    Position *e = malloc(sizeof(Position));
+    Position *e = malloc(sizeof *e);
     if (e == NULL) {
         fprintf(stderr, "Could not allocate memory for Position\n");
         exit(EXIT_FAILURE);
@@ -61,12 +61,12 @@ static void _al_shift_right(ArrayList *al) {
 }
 
 ArrayList *al_init() {
-    ArrayList *al = malloc(sizeof(ArrayList));
+    ArrayList *al = malloc(sizeof *al);
     if (al == NULL) {
         fprintf(stderr, "Could not allocate memory for ArrayList\n");
         exit(EXIT_FAILURE);
     }
-    al->list = malloc(sizeof(Position) * AL_INIT_CAPACITY);
+    al->list = malloc(sizeof *al->list * AL_INIT_CAPACITY);
     if (al->list == NULL) {
         fprintf(stderr, "Could not allocate memory for ArrayList\n");
         exit(EXIT_FAILURE);
