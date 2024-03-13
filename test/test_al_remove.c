@@ -27,6 +27,14 @@ int main() {
     assert(t3a == 76);
     assert(t3b == 55);
     assert(al_size(al) == 1);
+    puts("Passed test 3");
+
+    /* Remove elements after an expansion (should not trigger a shrink) */
+    al_add(al, 9, 28);
+    al_add(al, 9, 15);
+    int t4 = al_remove(al, 4);
+    assert(t4 == 40);
+    puts("Passed test 4");
 
     puts("All tests passed");
 }
