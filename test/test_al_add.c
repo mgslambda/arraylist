@@ -41,6 +41,8 @@ int main() {
     assert(al_size(al) == 5);
     puts("Passed test 5");
 
+    al_del(al);
+
     puts("All tests passed");
 }
 

@@ -6,14 +6,14 @@
 #define AL_INIT_CAPACITY 10
 
 static Position *_pos_init() {
-    Position *e = malloc(sizeof *e);
-    if (e == NULL) {
+    Position *p = malloc(sizeof *p);
+    if (p == NULL) {
         fprintf(stderr, "Could not allocate memory for Position\n");
         exit(EXIT_FAILURE);
     }
-    e->val = 0;
-    e->is_empty = 1;
-    return e;
+    p->val = 0;
+    p->is_empty = 1;
+    return p;
 }
 
 /* Doubles the size of al->list */
@@ -153,4 +153,12 @@ int al_remove(ArrayList *al, int index) {
     return res;
 }
 
-void al_del(ArrayList *al);
+void al_del(ArrayList *al) {
+    for (size_t i = 0; i < al->_capacity; i++) {
+        free(*(al->list + i));
+    }
+    free(al->list);
+    free(al);
+    al = NULL;
+}
+

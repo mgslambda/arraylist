@@ -36,6 +36,8 @@ int main() {
     assert(t4 == 40);
     puts("Passed test 4");
 
+    al_del(al);
+
     puts("All tests passed");
 }
 

@@ -9,5 +9,7 @@ int main() {
     assert(t1 == 198);
     puts("Passed test 1");
 
+    al_del(al);
+
     puts("All tests passed");
 }
