@@ -104,13 +104,11 @@ void al_add(ArrayList *al, int index, int val) {
         fprintf(stderr, "Index %d out of bounds\n", al->_capacity);
         exit(EXIT_FAILURE);
     }
-    // if position at index is occupied, shift all occupied positions greater than index to the right
     if (!(*(al->list + index))->is_empty) {
         // if the last position in the list is occupied, resize
         if (!(*(al->list + al->_capacity - 1))->is_empty) {
             _al_expand(al);
         }
-        // then shift each occupied position to the right
         _al_shift_right(al, index);
     }
     (*(al->list + index))->val = val;
@@ -119,25 +117,17 @@ void al_add(ArrayList *al, int index, int val) {
 }
 
 int al_remove(ArrayList *al, int index) {
-    // if index is greater than the _capacity of al, error
     if (index < 0 || index > al->_capacity) {
         fprintf(stderr, "Cannot remove from beyond the bounds of the ArrayList\n");
         exit(EXIT_FAILURE);
     }
-    // if we attempt to remove an empty position, error
     if ((*(al->list + index))->is_empty) {
         fprintf(stderr, "Cannot remove from an empty position\n");
         exit(EXIT_FAILURE);
     }
-    // store the val of the Position at index in a temp variable and
     int res = (*(al->list + index))->val;
-    // set the Position to empty
     (*(al->list + index))->is_empty = 1;
-    // decrement al->size
     al->size--;
-    // if al->size is less than 30% of al->_capacity **AND** 
-    // there are no elements currently in part of the list that is about
-    // to shrink **AND** the capacity is >10, shrink the arraylist
     if (al_size(al) < 0.3 * al->_capacity && al->_capacity > 10) {
         int can_shrink = 1;
         for (int i = al->_capacity / 2; i < al->_capacity; i++) {
