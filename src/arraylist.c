@@ -39,9 +39,9 @@ static void _al_shrink(ArrayList *al) {
     al->_capacity /= 2;
 }
 
-/* Return the rightmost non-empty index */
+/* Return the rightmost non-empty index or zero if ArrayList is empty */
 static int _al_get_last_idx(ArrayList *al) {
-    int idx;
+    int idx = 0;
     for (int i = al->_capacity - 1; i >= 0; i--) {
         if (!(*(al->list + i))->is_empty) {
             idx = i;
@@ -156,5 +156,8 @@ void al_del(ArrayList *al) {
     al = NULL;
 }
 
-void al_add_end(ArrayList *al, int val) {}
+void al_add_end(ArrayList *al, int val) {
+    int last_idx = _al_get_last_idx(al);
+    al_add(al, last_idx == 0 ? last_idx : last_idx + 1, val);
+}
 
