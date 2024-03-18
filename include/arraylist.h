@@ -10,5 +10,6 @@ extern int al_get(ArrayList *al, int index);
 extern void al_add(ArrayList *al, int index, int val);
 extern int al_remove(ArrayList *al, int index);
 extern void al_del(ArrayList *al);
+extern void al_add_end(ArrayList *al, int val);
 
 #endif

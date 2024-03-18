@@ -39,18 +39,22 @@ static void _al_shrink(ArrayList *al) {
     al->_capacity /= 2;
 }
 
-/* Move the value of each non-empty position 1 position to the right
-   start at idx, the index of the rightmost non-empty position, and work back */
-static void _al_shift_right(ArrayList *al, int stop_idx) {
-    int start_index = al->_capacity - 1;
-
+/* Return the rightmost non-empty index or zero if ArrayList is empty */
+static int _al_get_last_idx(ArrayList *al) {
+    int idx = 0;
     for (int i = al->_capacity - 1; i >= 0; i--) {
         if (!(*(al->list + i))->is_empty) {
-            start_index = i;
+            idx = i;
             break;
         }
     }
+    return idx;
+}
 
+/* Move the value of each non-empty position 1 position to the right
+   start at idx, the index of the rightmost non-empty position, and work back */
+static void _al_shift_right(ArrayList *al, int stop_idx) {
+    int start_index = _al_get_last_idx(al);
     for (int i = start_index; i >= stop_idx; i--) {
         if (!(*(al->list + i))->is_empty) {
             (*(al->list + i + 1))->val = (*(al->list + i))->val;
@@ -150,5 +154,10 @@ void al_del(ArrayList *al) {
     free(al->list);
     free(al);
     al = NULL;
+}
+
+void al_add_end(ArrayList *al, int val) {
+    int last_idx = _al_get_last_idx(al);
+    al_add(al, last_idx == 0 ? last_idx : last_idx + 1, val);
 }
 
