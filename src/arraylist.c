@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "../include/arraylist.h"
 #include "../include/_arraylist.h"
 
 #define AL_INIT_CAPACITY 10
+#define GROWTH_FACTOR 1.5
 
 static Position *_pos_init() {
     Position *p = malloc(sizeof *p);
@@ -18,25 +20,25 @@ static Position *_pos_init() {
 
 /* Doubles the size of al->list */
 static void _al_expand(ArrayList *al) {
-    al->list = realloc(al->list, sizeof *al->list * al->_capacity * 2);
+    al->list = realloc(al->list, sizeof *al->list * floor(al->_capacity * GROWTH_FACTOR));
     if (al->list == NULL) {
         fprintf(stderr, "Failed to expand ArrayList\n");
         exit(EXIT_FAILURE);
     }
-    for (size_t i = al->_capacity; i < al->_capacity * 2; i++) {
+    for (size_t i = al->_capacity; i < floor(al->_capacity * GROWTH_FACTOR); i++) {
         *(al->list + i) = _pos_init();
     }
-    al->_capacity *= 2;
+    al->_capacity = floor(al->_capacity * GROWTH_FACTOR);
 }
 
 /* Halves the size of al->list */
 static void _al_shrink(ArrayList *al) {
-    al->list = realloc(al->list, sizeof *al->list * al->_capacity / 2);
+    al->list = realloc(al->list, sizeof *al->list * ceil(al->_capacity / GROWTH_FACTOR));
     if (al->list == NULL) {
         fprintf(stderr, "Failed to shrink ArrayList\n");
         exit(EXIT_FAILURE);
     }
-    al->_capacity /= 2;
+    al->_capacity = ceil(al->_capacity / GROWTH_FACTOR);
 }
 
 /* Return the rightmost non-empty index or zero if ArrayList is empty */
@@ -134,7 +136,7 @@ int al_remove(ArrayList *al, int index) {
     al->size--;
     if (al_size(al) < 0.3 * al->_capacity && al->_capacity > 10) {
         int can_shrink = 1;
-        for (int i = al->_capacity / 2; i < al->_capacity; i++) {
+        for (int i = ceil(al->_capacity / 2.0); i < al->_capacity; i++) {
             if (!(*(al->list + i))->is_empty) {
                 can_shrink = 0;
                 break;
